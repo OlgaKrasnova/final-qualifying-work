@@ -1,0 +1,258 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-dark">
+            <div class="card-header">
+              <h3 class="card-title">Добро пожаловать в личный кабинет студента!</h3>
+            </div>
+            <div class="row">
+              <h4 class="pl-5 pt-5">Здесь вы можете:</h4>
+            </div>
+            <div class="row p-5"> 
+              <div class="card text-center mr-4" style="width: 30rem;">
+                <div class="card-header">
+                  Посмотреть своё портфолио
+                </div>
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Особое обращение с заголовком</h5> -->
+                  <p class="card-text">Обзор проектов, входящие в ваше портфолио</p>
+                  <a href="http://127.0.0.1:8000/student/view/add_portfolio/" class="btn btn-secondary">Перейти</a>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+              </div>
+              <div class="card text-center mr-4" style="width: 30rem;">
+                <div class="card-header">
+                  Добавить проект в портфолио
+                </div>
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Особое обращение с заголовком</h5> -->
+                  <p class="card-text">Добавьте новый проект в ваше портфолио</p>
+                  <a href="http://127.0.0.1:8000/student/view/add_project/" class="btn btn-secondary">Перейти</a>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+              </div>              
+              <div class="card text-center" style="width: 30rem;">
+                <div class="card-header">
+                  Отредактировать информацию о себе
+                </div>
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Особое обращение с заголовком</h5> -->
+                  <p class="card-text">Редактирование личной информации</p>
+                  <a href="http://127.0.0.1:8000/student/view/profile/" class="btn btn-secondary">Перейти</a>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+              </div>   
+              <div class="card text-center mr-4" style="width: 30rem;">
+                <div class="card-header">
+                  Посмотреть оповещения от администратора
+                </div>
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Особое обращение с заголовком</h5> -->
+                  <p class="card-text">Центр уведомлений от администрации веб-портала</p>
+                  <a href="http://127.0.0.1:8000/student/view/notification/" class="btn btn-secondary">Перейти</a>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+              </div> 
+              <div class="card text-center" style="width: 30rem;">
+                <div class="card-header">
+                  Оставить обратную связь администратору
+                </div>
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Особое обращение с заголовком</h5> -->
+                  <!-- <p class="card-text">Помогите сделать веб-портал лучше - оставьте обратную связь.</p> -->
+                  <p class="card-text">Помогите сделать веб-портал лучше - оставьте обратную связь</p>
+                  <a href="http://127.0.0.1:8000/student/feedback/" class="btn btn-secondary">Перейти</a>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+              </div>                                            
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}
+
+<!-- {% block custom_js %}
+  <script>
+$(document).ready(function(){
+
+    //Dataset
+    var subjects = {{data_name|safe}}
+    var data_present = {{data_present}}
+    var data_absent = {{data_absent}}
+
+    //-------------
+    //- DONUT CHART -
+    var attendanceDataCanvas = $('#attendanceData').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+         'Present', 'Absent'
+      ],
+      datasets: [
+        {
+          data: [{{percent_present}}, {{percent_absent}}],
+          backgroundColor : ['#00a65a','#f56954'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    var attendanceData = new Chart(attendanceDataCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions      
+    });
+
+    //attendanceStatistics
+//Bar Chart
+var areaChartData = {
+    labels  : subjects,
+    datasets: [
+    {
+        label               : 'Present In Class',
+        backgroundColor     : 'rgba(60,141,188,0.9)',
+        borderColor         : 'rgba(60,141,188,0.8)',
+        pointRadius          : false,
+        pointColor          : '#3b8bba',
+        pointStrokeColor    : 'rgba(60,141,188,1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(60,141,188,1)',
+        data                : data_present
+      },
+
+      {
+        label               : 'Absent In Class',
+        backgroundColor     : 'rgba(210, 214, 222, 1)',
+        borderColor         : 'rgba(210, 214, 222, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(210, 214, 222, 1)',
+        pointStrokeColor    : '#c1c7d1',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(220,220,220,1)',
+        data                : data_absent
+      },
+    ]
+  }
+var barChartCanvas = $('#attendanceStatistics').get(0).getContext('2d')
+var barChartData = jQuery.extend(true, {}, areaChartData)
+var temp = areaChartData.datasets[0]
+barChartData.datasets[0] = temp
+var barChartOptions = {
+  responsive              : true,
+  maintainAspectRatio     : false,
+  datasetFill             : false
+}
+
+var barChart = new Chart(barChartCanvas, {
+  type: 'bar', 
+  data: barChartData,
+  options: barChartOptions
+})
+
+ 
+})
+
+  </script>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-messaging.js"></script>
+    
+    
+        <script>
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            var firebaseConfig = {
+                apiKey: "AIzaSyBarDWWHTfTMSrtc5Lj3Cdw5dEvjAkFwtM",
+                authDomain: "sms-with-django.firebaseapp.com",
+                databaseURL: "https://sms-with-django.firebaseio.com",
+                projectId: "sms-with-django",
+                storageBucket: "sms-with-django.appspot.com",
+                messagingSenderId: "945324593139",
+                appId: "1:945324593139:web:03fa99a8854bbd38420c86",
+                measurementId: "G-2F2RXTL9GT"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig)
+            const messaging = firebase.messaging();
+            function InitializeFireBaseMessaging() {
+                messaging
+                    .requestPermission()
+                    .then(function () {
+                        console.log("Notification Permission");
+                        return messaging.getToken();
+                    })
+                    .then(function (token) {
+                        console.log("Token : " + token);
+                        sendToServer(token);
+                    })
+                    .catch(function (reason) {
+                        console.log(reason)
+                    })
+            }
+            messaging.onMessage(function (payload) {
+                const notificationOption = {
+                    body: payload.notification.body,
+                    icon: payload.notification.icon,
+    
+                }
+                if (Notification.permission == 'granted') {
+                    var notification = new Notification(payload.notification.title, notificationOption);
+                    notification.onclick = function (event) {
+                        event.preventDefault();
+                        window.open(payload.notification.click_action, "_blank");
+                        notification.close();
+                    }
+                }
+                console.log(payload);
+            });
+            messaging.onTokenRefresh(function () {
+                messaging.getToken()
+                    .then(function (newToken) {
+                        console.log("New Token : " + newToken);
+                        sendToServer(newToken);
+  
+                    })
+                    .catch(function (reason) {
+                        console.log(reason)
+                    })
+            })
+    
+            function sendToServer(token){
+              $.ajax({
+                url: "{% url 'student_fcmtoken' %}",
+                type: 'POST',
+                data: {
+                    token: token,
+                }
+            }).done(function (response) {
+               
+      
+               
+            }).fail(function (response) {
+            })
+  
+            }
+            
+            InitializeFireBaseMessaging();
+        </script>
+{% endblock custom_js %} -->
